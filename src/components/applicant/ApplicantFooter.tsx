@@ -8,14 +8,14 @@ export function ApplicantFooter() {
     <footer className="hidden md:block border-t bg-background mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col items-center justify-center gap-1 text-xs text-muted-foreground">
         <span className="text-center">
-          © {new Date().getFullYear()} The Talent App. Built with love by{' '}
+          © {new Date().getFullYear()} OBAOL Supreme ATS · Built for{' '}
           <a
-            href="https://www.sparxitsolutions.com"
+            href="https://www.obaol.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="underline underline-offset-2 hover:text-foreground transition-colors"
           >
-            SparxIT
+            OBAOL Supreme
           </a>
           {compliance.privacy_policy_url && safeExternalUrl(compliance.privacy_policy_url) && (
             <>

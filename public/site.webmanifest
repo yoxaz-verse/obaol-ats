@@ -1,13 +1,13 @@
 {
-  "name": "OBAOL ATS",
+  "name": "OBAOL Supreme ATS",
   "short_name": "OBAOL ATS",
-  "description": "AI-powered ATS with unified hiring, global search, and interview pipeline",
+  "description": "Talent acquisition for OBAOL companies",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#D99A3A",
-  "background_color": "#000000",
+  "theme_color": "#CF983C",
+  "background_color": "#0E0D0A",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

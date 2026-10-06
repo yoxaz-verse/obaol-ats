@@ -27,7 +27,7 @@ describe('normalizeHexColor', () => {
   });
 
   it('defaults match normalized OBAOL gold', () => {
-    expect(normalizeHexColor(DEFAULT_PRIMARY_COLOR)).toBe('#D99A3A');
+    expect(normalizeHexColor(DEFAULT_PRIMARY_COLOR)).toBe('#CF983C');
   });
 });
 
@@ -36,8 +36,8 @@ describe('deriveAccessibleHsl', () => {
 
   it('darkens the default brand just enough for white labels', () => {
     const primary = hexToHslVar(DEFAULT_PRIMARY_COLOR);
-    expect(primary).toBe('36 68% 54%');
-    expect(deriveAccessibleHsl(primary, white)).toBe('36 68% 37%');
+    expect(primary).toBe('38 60% 52%');
+    expect(deriveAccessibleHsl(primary, white)).toBe('38 60% 37%');
   });
 
   it('keeps a very dark brand unchanged', () => {

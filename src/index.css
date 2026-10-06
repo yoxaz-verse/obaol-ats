@@ -4,29 +4,29 @@
 
 @layer base {
   :root {
-    /* OBAOL Brand Colors - Gold #D99A3A, Black #171717 */
-    --background: 0 0% 97%;
-    --foreground: 0 0% 13%;
+    /* OBAOL Supreme: gold #CF983C, ink #0E0D0A, warm canvas #FCFAF6 */
+    --background: 40 50% 98%;
+    --foreground: 45 17% 5%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 13%;
+    --card-foreground: 45 17% 5%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 13%;
+    --popover-foreground: 45 17% 5%;
 
     /* OBAOL Gold — overridden at runtime by BrandThemeProvider (see src/lib/brandTheme.ts) */
-    --primary: 36 68% 54%;
-    --primary-foreground: 0 0% 9%;
+    --primary: 38 60% 52%;
+    --primary-foreground: 45 17% 5%;
 
-    --secondary: 0 0% 95%;
-    --secondary-foreground: 0 0% 13%;
+    --secondary: 40 24% 94%;
+    --secondary-foreground: 45 17% 5%;
 
-    --muted: 180 5% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 40 24% 95%;
+    --muted-foreground: 35 9% 38%;
 
     /* Neutral hover/highlight surface (menus, ghost buttons, cmdk selection) */
-    --accent: 0 0% 95%;
-    --accent-foreground: 0 0% 13%;
+    --accent: 39 38% 91%;
+    --accent-foreground: 45 17% 5%;
 
     --destructive: 354 72% 44%;
     --destructive-foreground: 0 0% 100%;
@@ -40,9 +40,9 @@
     --info: 200 80% 50%;
     --info-foreground: 0 0% 100%;
 
-    --border: 0 0% 92%;
-    --input: 0 0% 86%;
-    --ring: 36 68% 54%;
+    --border: 39 20% 88%;
+    --input: 39 16% 82%;
+    --ring: 38 60% 52%;
 
     --radius: 0.625rem;
     --radius-sm: 0.375rem;
@@ -66,28 +66,28 @@
     --chip-neutral-text: 220 9% 40%;
 
     /* Custom tokens - OBAOL themed */
-    --gradient-primary: linear-gradient(135deg, hsl(36 68% 54%) 0%, hsl(36 68% 47%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(0 0% 15%) 0%, hsl(0 0% 25%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 99%) 100%);
-    --shadow-button: 0 2px 8px -2px hsl(36 68% 54% / 0.4);
+    --gradient-primary: linear-gradient(135deg, hsl(38 63% 56%) 0%, hsl(35 60% 44%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(45 17% 5%) 0%, hsl(0 0% 9%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(40 50% 98%) 100%);
+    --shadow-button: 0 2px 8px -2px hsl(38 60% 52% / 0.4);
 
     /* Light ATS sidebar */
-    --sidebar-background: 0 0% 97%;
-    --sidebar-foreground: 0 0% 36%;
-    --sidebar-primary: 36 68% 54%;
-    --sidebar-primary-foreground: 0 0% 9%;
-    --sidebar-accent: 0 0% 93%;
-    --sidebar-accent-foreground: 0 0% 13%;
-    --sidebar-border: 0 0% 92%;
-    --sidebar-ring: 36 68% 54%;
+    --sidebar-background: 40 50% 98%;
+    --sidebar-foreground: 35 9% 32%;
+    --sidebar-primary: 38 60% 52%;
+    --sidebar-primary-foreground: 45 17% 5%;
+    --sidebar-accent: 39 38% 91%;
+    --sidebar-accent-foreground: 45 17% 5%;
+    --sidebar-border: 39 20% 88%;
+    --sidebar-ring: 38 60% 52%;
 
-    --surface-subtle: 0 0% 98%;
+    --surface-subtle: 40 50% 98%;
     --subtle-foreground: 0 0% 55%;
     --track: 0 0% 91%;
-    --ink-strong: 0 0% 15%;
+    --ink-strong: 45 17% 5%;
     /* Contrast-safe brand fill/text; re-derived at runtime by applyBrandTheme() */
-    --primary-solid: 36 68% 54%;
-    --primary-text: 36 68% 37%;
+    --primary-solid: 38 60% 52%;
+    --primary-text: 38 60% 37%;
 
     --chitra: 262 83% 58%;
     --chitra-bg: 262 83% 97%;
@@ -140,17 +140,17 @@
   }
 
   .dark {
-    --background: 220 10% 8%;
+    --background: 45 17% 5%;
     --foreground: 0 0% 95%;
 
-    --card: 220 10% 12%;
+    --card: 40 12% 9%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 220 10% 12%;
+    --popover: 40 12% 9%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 36 68% 54%;
-    --primary-foreground: 0 0% 9%;
+    --primary: 38 60% 52%;
+    --primary-foreground: 45 17% 5%;
 
     --secondary: 220 10% 18%;
     --secondary-foreground: 0 0% 90%;
@@ -175,9 +175,9 @@
 
     --border: 220 10% 20%;
     --input: 220 10% 20%;
-    --ring: 36 68% 54%;
+    --ring: 38 60% 52%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(36 68% 54%) 0%, hsl(36 68% 47%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(38 63% 56%) 0%, hsl(35 60% 44%) 100%);
     --shadow-1: 0 1px 3px hsl(0 0% 0% / 0.25), 0 1px 2px hsl(0 0% 0% / 0.15);
     --shadow-2: 0 4px 16px -4px hsl(0 0% 0% / 0.35), 0 2px 6px -2px hsl(0 0% 0% / 0.2);
     --shadow-card: var(--shadow-1);
@@ -192,21 +192,21 @@
     --chip-neutral-bg: 220 10% 18%;
     --chip-neutral-text: 220 10% 72%;
 
-    --sidebar-background: 220 10% 10%;
+    --sidebar-background: 45 17% 5%;
     --sidebar-foreground: 0 0% 96%;
-    --sidebar-primary: 36 68% 54%;
-    --sidebar-primary-foreground: 0 0% 9%;
+    --sidebar-primary: 38 60% 52%;
+    --sidebar-primary-foreground: 45 17% 5%;
     --sidebar-accent: 220 10% 16%;
     --sidebar-accent-foreground: 0 0% 96%;
     --sidebar-border: 220 10% 16%;
-    --sidebar-ring: 36 68% 54%;
+    --sidebar-ring: 38 60% 52%;
 
     --surface-subtle: 0 0% 14%;
     --subtle-foreground: 0 0% 50%;
     --track: 0 0% 20%;
     --ink-strong: 0 0% 98%;
-    --primary-solid: 36 68% 54%;
-    --primary-text: 36 75% 68%;
+    --primary-solid: 38 60% 52%;
+    --primary-text: 38 68% 68%;
 
     --chitra: 262 80% 72%;
     --chitra-bg: 262 40% 16%;

@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Lock, CheckCircle } from 'lucide-react';
-import talentAppLogo from '@/assets/The-Talent-App-Logo.png';
+import obaolLogo from '@/assets/OBAOL-Supreme-Logo.png';
 
 export default function ResetPassword() {
   usePageTitle('Reset Password');
@@ -65,10 +65,12 @@ export default function ResetPassword() {
 
   if (!isRecovery && !done) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.14),transparent_42%),hsl(var(--background))] p-4">
         <Card className="w-full max-w-md text-center">
           <CardHeader>
-            <img src={talentAppLogo} alt="The Talent App" className="h-12 mx-auto mb-4" />
+            <div className="mx-auto mb-4 w-fit rounded-xl bg-[#0E0D0A] px-5 py-1 ring-1 ring-primary/30">
+              <img src={obaolLogo} alt="OBAOL Supreme" className="h-16 w-44 object-contain" />
+            </div>
             <CardTitle>Invalid Reset Link</CardTitle>
             <CardDescription>
               This link is invalid or has expired. Please request a new password reset.
@@ -108,10 +110,12 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.14),transparent_42%),hsl(var(--background))] p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <img src={talentAppLogo} alt="The Talent App" className="h-12 mx-auto mb-4" />
+          <div className="mx-auto mb-4 w-fit rounded-xl bg-[#0E0D0A] px-5 py-1 ring-1 ring-primary/30">
+            <img src={obaolLogo} alt="OBAOL Supreme" className="h-16 w-44 object-contain" />
+          </div>
           <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10">
             <Lock className="h-8 w-8 text-primary" />
           </div>

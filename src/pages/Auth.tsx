@@ -13,7 +13,7 @@ import { Loader2, MailCheck, KeyRound } from 'lucide-react';
 import { MfaChallengePanel } from '@/components/auth/MfaChallengePanel';
 import { useSystemConfig, parseSsoSettings, type SsoSettings } from '@/hooks/useSystemConfig';
 import { APPLICANT_DASHBOARD_PATH, APPLICANT_LOGIN_VERIFY_PATH, isApplicantPortalUserMetadata } from '@/lib/publicRoutes';
-import talentAppLogo from '@/assets/The-Talent-App-Logo.png';
+import obaolLogo from '@/assets/OBAOL-Supreme-Logo.png';
 
 const emailSchema = z.string().email('Please enter a valid email address');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
@@ -231,7 +231,7 @@ export default function Auth() {
     } else {
       toast({
         title: 'Account created!',
-        description: 'Welcome to The Talent App.',
+        description: 'Welcome to OBAOL Supreme ATS.',
       });
     }
     
@@ -239,16 +239,20 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4">
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.14),transparent_42%),linear-gradient(135deg,hsl(var(--background)),hsl(var(--secondary)))] p-4">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full border border-primary/20" />
+      <div className="pointer-events-none absolute -bottom-32 -right-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex flex-col items-center justify-center mb-8">
-          <img
-            src={talentAppLogo}
-            alt="The Talent App"
-            className="h-14 w-auto mb-3"
-          />
-          <p className="text-sm text-muted-foreground">Talent Acquisition Platform</p>
+          <div className="rounded-2xl bg-[#0E0D0A] px-7 py-2 shadow-xl ring-1 ring-primary/30">
+            <img
+              src={obaolLogo}
+              alt="OBAOL Supreme"
+              className="h-20 w-52 object-contain"
+            />
+          </div>
+          <p className="mt-3 text-sm font-medium tracking-wide text-muted-foreground">Talent Acquisition for OBAOL Companies</p>
         </div>
 
         {signupPendingEmail ? (
@@ -460,16 +464,21 @@ export default function Auth() {
         )}
 
         <div className="text-center text-sm text-muted-foreground mt-6 space-y-1">
-          <p>By continuing, you agree to The Talent App&apos;s terms of service.</p>
           <p>
-            Built by{' '}
+            By continuing, you agree to OBAOL Supreme&apos;s{' '}
+            <a href="https://www.obaol.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">terms of service</a>
+            {' '}and{' '}
+            <a href="https://www.obaol.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">privacy policy</a>.
+          </p>
+          <p>
+            Built for{' '}
             <a
-              href="https://www.sparxitsolutions.com"
+              href="https://www.obaol.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-2 hover:text-foreground transition-colors"
             >
-              SparxIT
+              OBAOL Supreme
             </a>
           </p>
         </div>

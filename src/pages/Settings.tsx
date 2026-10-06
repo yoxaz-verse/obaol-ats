@@ -156,7 +156,7 @@ function BusinessBrandingTab() {
     const primary_color = normalizeHexColor(colorInput);
     const primary_foreground_color = normalizeHexColor(foregroundColorInput);
     if (!primary_color) {
-      toast.error('Enter a valid hex color (e.g. #D99A3A)');
+      toast.error('Enter a valid hex color (e.g. #CF983C)');
       return;
     }
     if (!primary_foreground_color) {
@@ -255,7 +255,7 @@ function BusinessBrandingTab() {
           <Input
             value={colorInput}
             onChange={e => handlePrimaryColorChange(e.target.value)}
-            placeholder="#D99A3A"
+            placeholder="#CF983C"
             className="max-w-[8rem] font-mono text-sm uppercase"
             maxLength={7}
           />
@@ -266,7 +266,7 @@ function BusinessBrandingTab() {
         <div className="space-y-2 pt-2 border-t border-border">
           <Label htmlFor="primary-foreground-color">Button text color</Label>
           <p className="text-xs text-muted-foreground">
-            Text on primary buttons, badges, and gradient actions. Default is white on SparxIT red.
+            Text on primary buttons, badges, and gradient actions. OBAOL defaults to near-black on gold for accessible contrast.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <input
@@ -1849,12 +1849,12 @@ function EmailTab() {
           <Label htmlFor="from-address">From address</Label>
           <Input
             id="from-address"
-            placeholder="system@thetalentapp.io or Company Name &lt;system@thetalentapp.io&gt;"
+            placeholder="verified-sender@your-domain.com or Company Name &lt;verified-sender@your-domain.com&gt;"
             value={local.from_address}
             onChange={(e) => setLocal((prev) => ({ ...prev, from_address: e.target.value }))}
           />
           <p className="text-xs text-muted-foreground">
-            Must be verified in AWS SES (same region as SMTP). When empty, uses <code className="text-xs bg-muted px-1 rounded">SES_SMTP_FROM</code> or <code className="text-xs bg-muted px-1 rounded">EMAIL_FROM</code> env on edge functions, then system@thetalentapp.io.
+            Must be verified in AWS SES (same region as SMTP). When empty, uses <code className="text-xs bg-muted px-1 rounded">SES_SMTP_FROM</code> or <code className="text-xs bg-muted px-1 rounded">EMAIL_FROM</code> on edge functions, then the existing operational fallback sender.
           </p>
         </div>
 
@@ -2319,11 +2319,11 @@ function SocialDraftsTab() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-semibold">Daily TTA OSS Twitter Drafts</h3>
+        <h3 className="text-sm font-semibold">Daily OBAOL Supreme ATS OSS Twitter Drafts</h3>
         <p className="text-sm text-muted-foreground mt-0.5">
           Chitragupta generates 3 distinct tweet options each morning — Feature, OSS stack, and CTA angles — so you can post multiple times/day promoting{' '}
           <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline-offset-2 hover:underline">
-            The Talent App
+            OBAOL Supreme ATS
           </a>{' '}
           on X/Twitter. Copy any draft and mark <strong>Posted</strong> after you publish on X — nothing is posted automatically.
         </p>

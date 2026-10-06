@@ -1,6 +1,10 @@
 import { Link } from 'react-router';
 import { useBusinessBranding } from '@/hooks/useSystemConfig';
 import { cn } from '@/lib/utils';
+import obaolLogo from '@/assets/OBAOL-Supreme-Logo.png';
+import { DEFAULT_COMPANY_NAME } from '@/lib/productBrand';
+
+export { DEFAULT_COMPANY_NAME };
 
 interface CompanyLogoProps {
   compact?: boolean;
@@ -37,15 +41,19 @@ export function CompanyLogo({ compact = false, className }: CompanyLogoProps) {
   }
 
   return (
-    <span className={cn('font-medium text-muted-foreground', compact ? 'text-sm' : 'text-base', className)}>
-      Your Company
+    <span className={cn('inline-flex items-center rounded-lg bg-[#0E0D0A] px-2 ring-1 ring-primary/25', className)}>
+      <img
+        src={obaolLogo}
+        alt={DEFAULT_COMPANY_NAME}
+        className={cn('w-auto object-contain', compact ? 'h-7 max-w-[110px]' : 'h-9 sm:h-10 max-w-[150px]')}
+      />
     </span>
   );
 }
 
 export function useCompanyDisplayName() {
   const { branding } = useBusinessBranding();
-  return branding.company_name?.trim() || null;
+  return branding.company_name?.trim() || DEFAULT_COMPANY_NAME;
 }
 
 interface ApplicantPortalHeaderProps {
@@ -105,7 +113,7 @@ export function AssessmentPortalHeader({
   const { branding } = useBusinessBranding();
   const companyName = useCompanyDisplayName();
   const hasLogo = !!(branding.logo_desktop_url || branding.logo_mobile_url);
-  const resolvedSubtitle = subtitle ?? (companyName ? `${companyName} Talent Evaluation` : 'The Talent App');
+  const resolvedSubtitle = subtitle ?? `${companyName} Talent Evaluation`;
 
   const brandingLeft = (
     <div className="flex items-center gap-2 sm:gap-3 min-w-0">

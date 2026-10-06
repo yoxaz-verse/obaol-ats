@@ -86,7 +86,7 @@ export default function FeaturesOverview() {
             <h1 className="text-2xl font-bold">Platform Features</h1>
           </div>
           <p className="text-sm text-muted-foreground">
-            Everything The Talent App can do, organised by role.
+            Everything OBAOL Supreme ATS can do, organised by role.
           </p>
         </div>
 

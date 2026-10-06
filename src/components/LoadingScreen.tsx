@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import talentAppLogo from '@/assets/The-Talent-App-Logo.png';
+import obaolLogo from '@/assets/OBAOL-Supreme-Logo.png';
 
 const MESSAGES = [
   'Loading your talent pipeline…',
@@ -29,12 +29,14 @@ export function LoadingScreen() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-8 px-4">
-      <img
-        src={talentAppLogo}
-        alt="The Talent App"
-        className="h-14 sm:h-16 w-auto select-none"
-      />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.12),transparent_46%),hsl(var(--background))] gap-8 px-4">
+      <div className="rounded-2xl bg-[#0E0D0A] px-7 py-2 shadow-xl ring-1 ring-primary/30">
+        <img
+          src={obaolLogo}
+          alt="OBAOL Supreme"
+          className="h-20 w-52 object-contain select-none"
+        />
+      </div>
 
       <div className="flex items-center gap-2">
         {[0, 1, 2].map(i => (

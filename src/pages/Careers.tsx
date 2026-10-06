@@ -278,7 +278,7 @@ export default function Careers() {
           jobType: urlJob.job_type,
           datePosted: urlJob.created_at,
           validThrough: urlJob.application_deadline,
-          companyName: companyName || 'The Talent App',
+          companyName: companyName || 'OBAOL Supreme',
           jobUrl: typeof window !== 'undefined' ? `${window.location.origin}/careers/${urlJob.id}` : `/careers/${urlJob.id}`,
         }
       : null,

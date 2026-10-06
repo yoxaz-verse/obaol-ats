@@ -461,7 +461,7 @@ export const FEATURES: Feature[] = [
   {
     id: 'mobile-experience',
     title: 'Mobile App & PWA',
-    description: 'Installable progressive web app — add to home screen on iOS or Android. Mobile-first shell with bottom navigation, More menu for secondary pages, mobile-optimised dashboard, full-screen notifications sheet, and interview prep with kit/profile switcher. Use The Talent App on the go.',
+    description: 'Installable progressive web app — add to home screen on iOS or Android. Mobile-first shell with bottom navigation, More menu for secondary pages, mobile-optimised dashboard, full-screen notifications sheet, and interview prep with kit/profile switcher. Use OBAOL Supreme ATS on the go.',
     roles: ['Admin', 'HR', 'Recruiter', 'Interviewer'],
     addedAt: '2026-06-19',
     highlight: true,

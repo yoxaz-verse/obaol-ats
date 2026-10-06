@@ -395,7 +395,7 @@ function ChitraWidget() {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-white leading-tight">Chitragupta</p>
-        <p className="text-[10px] text-violet-200 leading-tight">AI HR Manager · The Talent App</p>
+        <p className="text-[10px] text-violet-200 leading-tight">AI HR Manager · OBAOL Supreme ATS</p>
       </div>
       {!isMobile && (
         <button

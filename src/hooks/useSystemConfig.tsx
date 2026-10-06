@@ -13,6 +13,7 @@ import {
   EMPTY_SOCIAL_DRAFTS_LATEST,
   SOCIAL_DRAFTS_ENABLED_KEY,
 } from '@/lib/socialDrafts';
+import { DEFAULT_PRODUCT_BRANDING, resolveProductBranding } from '@/lib/productBrand';
 
 export interface CertTierEntry {
   tier: number;
@@ -131,11 +132,7 @@ export const EMAIL_NOTIFICATION_LABELS: Record<EmailNotificationKey, { label: st
 };
 
 export const DEFAULT_BUSINESS_BRANDING: BusinessBranding = {
-  logo_desktop_url: null,
-  logo_mobile_url: null,
-  company_name: null,
-  primary_color: '#D99A3A',
-  primary_foreground_color: '#171717',
+  ...DEFAULT_PRODUCT_BRANDING,
 };
 
 export interface ComplianceSettings {
@@ -426,13 +423,7 @@ export { assessmentTierLabels, ASSESSMENT_TIERS, isNonTechAssessmentTier };
 export function useBusinessBranding() {
   const { configValue, isLoading, update, updateAsync, isUpdating } = useSystemConfig('business_branding');
   const raw = configValue as Partial<BusinessBranding> | undefined;
-  const branding: BusinessBranding = {
-    ...DEFAULT_BUSINESS_BRANDING,
-    ...raw,
-    primary_color: raw?.primary_color ?? DEFAULT_BUSINESS_BRANDING.primary_color,
-    primary_foreground_color:
-      raw?.primary_foreground_color ?? DEFAULT_BUSINESS_BRANDING.primary_foreground_color,
-  };
+  const branding: BusinessBranding = resolveProductBranding(raw);
   return { branding, isLoading, update, updateAsync, isUpdating };
 }
 

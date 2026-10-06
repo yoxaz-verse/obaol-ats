@@ -1,12 +1,13 @@
 import { useEffect } from "react";
+import { PRODUCT_NAME } from "@/lib/productBrand";
 
-const SUFFIX = "The Talent App";
+export { PRODUCT_NAME };
 
 export function usePageTitle(title?: string) {
   useEffect(() => {
-    document.title = title ? `${title} | ${SUFFIX}` : SUFFIX;
+    document.title = title ? `${title} | ${PRODUCT_NAME}` : PRODUCT_NAME;
     return () => {
-      document.title = SUFFIX;
+      document.title = PRODUCT_NAME;
     };
   }, [title]);
 }
