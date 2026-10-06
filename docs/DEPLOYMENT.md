@@ -197,7 +197,7 @@ Public repo CI must not deploy [SparxIT](https://www.sparxitsolutions.com) infra
 
 ## OBAOL ATS — Public `main` to GHCR and CapRover
 
-This is an explicit exception to the private-repository production model above. A push to `vikashsparxit/the-talent-app` on `main` runs `.github/workflows/deploy.yml`, builds the frontend image on GitHub Actions, publishes it to GHCR, and then calls the CapRover deployment webhook. It does not run database migrations or deploy Supabase Edge Functions.
+This is an explicit exception to the private-repository production model above. A push to `yoxaz-verse/obaol-ats` on `main` runs `.github/workflows/deploy.yml`, builds the frontend image on GitHub Actions, publishes it to GHCR, and then calls the CapRover deployment webhook. It does not run database migrations or deploy Supabase Edge Functions.
 
 ### GitHub Actions secrets
 
@@ -213,20 +213,20 @@ GitHub's automatically provided `GITHUB_TOKEN` authenticates the workflow to GHC
 
 The workflow publishes both:
 
-- `ghcr.io/vikashsparxit/obaol-ats:latest`
-- `ghcr.io/vikashsparxit/obaol-ats:<full-git-commit-sha>`
+- `ghcr.io/yoxaz-verse/obaol-ats:latest`
+- `ghcr.io/yoxaz-verse/obaol-ats:<full-git-commit-sha>`
 
 ### One-time CapRover setup
 
 1. Create a CapRover app named `obaol-ats`.
 2. Set **Container HTTP Port** to `80`.
-3. In the app's Deployment tab, connect `https://github.com/vikashsparxit/the-talent-app`, select branch `main`, and leave the Captain Definition path at the repository-root default. The checked-in `captain-definition` instructs CapRover to pull `ghcr.io/vikashsparxit/obaol-ats:latest` instead of rebuilding source.
+3. In the app's Deployment tab, connect `https://github.com/yoxaz-verse/obaol-ats`, select branch `main`, and leave the Captain Definition path at the repository-root default. The checked-in `captain-definition` instructs CapRover to pull `ghcr.io/yoxaz-verse/obaol-ats:latest` instead of rebuilding source.
 4. Copy the generated webhook URL into the GitHub secret `CAPROVER_DEPLOY_WEBHOOK`.
 5. If the GHCR package is private, open **CapRover → Cluster → Add Remote Registry** and enter:
    - Domain: `ghcr.io`
    - Username: the GitHub user or machine user that owns the token
    - Password: a fine-grained/classic GitHub token with read-only package access (`read:packages`) and repository access if GitHub requires it for the private package
-   - Image Prefix: `vikashsparxit`
+   - Image Prefix: `yoxaz-verse`
    - Disable pushing new images for this registry when only pull access is needed.
 6. Alternatively, change the GHCR package visibility to public and omit registry credentials. Keep the source repository's own visibility and security requirements in mind; package visibility is configured separately.
 7. Add the production domain in the app's HTTP Settings. Enable HTTPS, wait for certificate issuance to succeed, verify HTTPS, and only then enable **Force HTTPS**.
@@ -237,14 +237,14 @@ The deployment webhook starts only after both GHCR tags have been pushed. A non-
 
 Do not replace the localhost values in `supabase/config.toml`; they support local development. In the production Supabase dashboard, open **Authentication → URL Configuration** and configure:
 
-- Site URL: `https://YOUR-ATS-DOMAIN.com`
+- Site URL: `https://obaol-ats.infra.obaol.com`
 - Redirect URLs:
-  - `https://YOUR-ATS-DOMAIN.com/applicant/login`
-  - `https://YOUR-ATS-DOMAIN.com/applicant/login?verified=1`
-  - `https://YOUR-ATS-DOMAIN.com/applicant/dashboard`
-  - `https://YOUR-ATS-DOMAIN.com/reset-password`
+  - `https://obaol-ats.infra.obaol.com/applicant/login`
+  - `https://obaol-ats.infra.obaol.com/applicant/login?verified=1`
+  - `https://obaol-ats.infra.obaol.com/applicant/dashboard`
+  - `https://obaol-ats.infra.obaol.com/reset-password`
 
-Retain the required localhost redirect URLs for development. Replace `YOUR-ATS-DOMAIN.com` with the final production hostname before launch.
+Retain the required localhost redirect URLs for development.
 
 ### Deployment verification
 

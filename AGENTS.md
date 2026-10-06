@@ -38,7 +38,7 @@ The **private** repo is the source of truth. The public repo is a sanitized snap
 
 ## Authorized Public Deployment Exception
 
-Pushes to `the-talent-app/main` may build `ghcr.io/vikashsparxit/obaol-ats` and trigger the `obaol-ats` CapRover app. This exception applies only to the checked-in GitHub Actions workflow and does not authorize manual pushes to the public repository, database migrations, edge-function deployment, or changes to the private SparxIT production process.
+Pushes to `yoxaz-verse/obaol-ats` on `main` may build `ghcr.io/yoxaz-verse/obaol-ats` and trigger the `obaol-ats` CapRover app. This exception applies only to the checked-in GitHub Actions workflow and does not authorize database migrations, edge-function deployment, or changes to the private SparxIT production process.
 
 ---
 
