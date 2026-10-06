@@ -16,13 +16,13 @@ export default defineConfig(({ mode }) => ({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "android-chrome-192x192.png", "android-chrome-512x512.png", "the-talent-app-icon.png"],
+      includeAssets: ["favicon.ico", "favicon-16x16.png", "favicon-32x32.png", "apple-touch-icon.png", "android-chrome-192x192.png", "android-chrome-512x512.png", "obaol-icon.png"],
       manifest: {
-        name: "The Talent App",
-        short_name: "Talent App",
+        name: "OBAOL ATS",
+        short_name: "OBAOL ATS",
         description: "Recruitment pipeline and talent management",
-        theme_color: "#D64541",
-        background_color: "#ffffff",
+        theme_color: "#D99A3A",
+        background_color: "#000000",
         display: "standalone",
         orientation: "portrait-primary",
         start_url: "/",
@@ -36,6 +36,9 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2,webmanifest}"],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
         navigateFallback: "/index.html",
         navigateFallbackDenylist: [/^\/api/],
         // Hashed /assets/*.js must not use StaleWhileRevalidate — it kept serving

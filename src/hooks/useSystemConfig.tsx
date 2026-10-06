@@ -134,8 +134,8 @@ export const DEFAULT_BUSINESS_BRANDING: BusinessBranding = {
   logo_desktop_url: null,
   logo_mobile_url: null,
   company_name: null,
-  primary_color: '#D64541',
-  primary_foreground_color: '#FFFFFF',
+  primary_color: '#D99A3A',
+  primary_foreground_color: '#171717',
 };
 
 export interface ComplianceSettings {

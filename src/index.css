@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* SparxIT Brand Colors - Red #D64541, Charcoal #262626 */
+    /* OBAOL Brand Colors - Gold #D99A3A, Black #171717 */
     --background: 0 0% 97%;
     --foreground: 0 0% 13%;
 
@@ -14,9 +14,9 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 13%;
 
-    /* SparxIT Red — overridden at runtime by BrandThemeProvider (see src/lib/brandTheme.ts) */
-    --primary: 2 65% 55%;
-    --primary-foreground: 0 0% 100%;
+    /* OBAOL Gold — overridden at runtime by BrandThemeProvider (see src/lib/brandTheme.ts) */
+    --primary: 36 68% 54%;
+    --primary-foreground: 0 0% 9%;
 
     --secondary: 0 0% 95%;
     --secondary-foreground: 0 0% 13%;
@@ -42,7 +42,7 @@
 
     --border: 0 0% 92%;
     --input: 0 0% 86%;
-    --ring: 2 65% 55%;
+    --ring: 36 68% 54%;
 
     --radius: 0.625rem;
     --radius-sm: 0.375rem;
@@ -65,29 +65,29 @@
     --chip-neutral-bg: 220 14% 94%;
     --chip-neutral-text: 220 9% 40%;
 
-    /* Custom tokens - SparxIT themed */
-    --gradient-primary: linear-gradient(135deg, hsl(2 65% 55%) 0%, hsl(2 60% 48%) 100%);
+    /* Custom tokens - OBAOL themed */
+    --gradient-primary: linear-gradient(135deg, hsl(36 68% 54%) 0%, hsl(36 68% 47%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(0 0% 15%) 0%, hsl(0 0% 25%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 99%) 100%);
-    --shadow-button: 0 2px 8px -2px hsl(2 65% 55% / 0.4);
+    --shadow-button: 0 2px 8px -2px hsl(36 68% 54% / 0.4);
 
     /* Light ATS sidebar */
     --sidebar-background: 0 0% 97%;
     --sidebar-foreground: 0 0% 36%;
-    --sidebar-primary: 2 65% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 36 68% 54%;
+    --sidebar-primary-foreground: 0 0% 9%;
     --sidebar-accent: 0 0% 93%;
     --sidebar-accent-foreground: 0 0% 13%;
     --sidebar-border: 0 0% 92%;
-    --sidebar-ring: 2 65% 55%;
+    --sidebar-ring: 36 68% 54%;
 
     --surface-subtle: 0 0% 98%;
     --subtle-foreground: 0 0% 55%;
     --track: 0 0% 91%;
     --ink-strong: 0 0% 15%;
     /* Contrast-safe brand fill/text; re-derived at runtime by applyBrandTheme() */
-    --primary-solid: 2 65% 53%;
-    --primary-text: 2 65% 45%;
+    --primary-solid: 36 68% 54%;
+    --primary-text: 36 68% 37%;
 
     --chitra: 262 83% 58%;
     --chitra-bg: 262 83% 97%;
@@ -149,8 +149,8 @@
     --popover: 220 10% 12%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 2 65% 55%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 36 68% 54%;
+    --primary-foreground: 0 0% 9%;
 
     --secondary: 220 10% 18%;
     --secondary-foreground: 0 0% 90%;
@@ -175,9 +175,9 @@
 
     --border: 220 10% 20%;
     --input: 220 10% 20%;
-    --ring: 2 65% 55%;
+    --ring: 36 68% 54%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(2 65% 55%) 0%, hsl(2 60% 50%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(36 68% 54%) 0%, hsl(36 68% 47%) 100%);
     --shadow-1: 0 1px 3px hsl(0 0% 0% / 0.25), 0 1px 2px hsl(0 0% 0% / 0.15);
     --shadow-2: 0 4px 16px -4px hsl(0 0% 0% / 0.35), 0 2px 6px -2px hsl(0 0% 0% / 0.2);
     --shadow-card: var(--shadow-1);
@@ -194,19 +194,19 @@
 
     --sidebar-background: 220 10% 10%;
     --sidebar-foreground: 0 0% 96%;
-    --sidebar-primary: 2 65% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 36 68% 54%;
+    --sidebar-primary-foreground: 0 0% 9%;
     --sidebar-accent: 220 10% 16%;
     --sidebar-accent-foreground: 0 0% 96%;
     --sidebar-border: 220 10% 16%;
-    --sidebar-ring: 2 65% 55%;
+    --sidebar-ring: 36 68% 54%;
 
     --surface-subtle: 0 0% 14%;
     --subtle-foreground: 0 0% 50%;
     --track: 0 0% 20%;
     --ink-strong: 0 0% 98%;
-    --primary-solid: 2 65% 55%;
-    --primary-text: 2 70% 62%;
+    --primary-solid: 36 68% 54%;
+    --primary-text: 36 75% 68%;
 
     --chitra: 262 80% 72%;
     --chitra-bg: 262 40% 16%;

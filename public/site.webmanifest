@@ -1,13 +1,13 @@
 {
-  "name": "The Talent App",
-  "short_name": "Talent App",
+  "name": "OBAOL ATS",
+  "short_name": "OBAOL ATS",
   "description": "AI-powered ATS with unified hiring, global search, and interview pipeline",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#D64541",
-  "background_color": "#ffffff",
+  "theme_color": "#D99A3A",
+  "background_color": "#000000",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

@@ -1,5 +1,5 @@
-export const DEFAULT_PRIMARY_COLOR = '#D64541';
-export const DEFAULT_PRIMARY_FOREGROUND_COLOR = '#FFFFFF';
+export const DEFAULT_PRIMARY_COLOR = '#D99A3A';
+export const DEFAULT_PRIMARY_FOREGROUND_COLOR = '#171717';
 
 const BRAND_STYLE_ID = 'brand-theme-overrides';
 
