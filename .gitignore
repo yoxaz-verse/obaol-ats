@@ -17,6 +17,7 @@ dist-ssr
 .env.local
 .env.*.local
 supabase/functions/.env
+supabase/.temp/
 .env.deploy
 .env.deploy.local
 scripts/.env.runner

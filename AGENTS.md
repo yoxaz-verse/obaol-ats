@@ -11,7 +11,7 @@
 | Remote | Repository | Use for |
 |--------|------------|---------|
 | `origin` | `vikashsparxit/sparxtalent` (private) | All development, commits, [SparxIT](https://www.sparxitsolutions.com) production |
-| `oss` | `vikashsparxit/the-talent-app` (public) | OSS export only — never push here directly |
+| `oss` | `vikashsparxit/the-talent-app` (public) | Sanitized OSS export and the authorized OBAOL ATS CapRover deployment source |
 
 The **private** repo is the source of truth. The public repo is a sanitized snapshot.
 
@@ -22,7 +22,7 @@ The **private** repo is the source of truth. The public repo is a sanitized snap
 1. **Commit to `origin` (private).** Never treat the public repo as the working repository.
 2. **Never `git push oss`** or push directly to `the-talent-app`. OSS updates only via `npm run export:oss:push` when the user explicitly requests it.
 3. **Never expose private-only files** in OSS. Paths in `oss-export.exclude` must stay out of the public export. Add new internal files there before any OSS release.
-4. **[SparxIT](https://www.sparxitsolutions.com) production deploy** only via `npm run push:prod` or `git push origin main && git push origin main:prod`. Never deploy prod from the public repo.
+4. **[SparxIT](https://www.sparxitsolutions.com) production deploy** only via `npm run push:prod` or `git push origin main && git push origin main:prod`. The separate OBAOL ATS deployment is explicitly authorized from public `the-talent-app/main` through `.github/workflows/deploy.yml`; it must not deploy SparxIT infrastructure.
 5. **Before any push:** `npx tsc --noEmit` and `npm run build` must pass. Never force-push. Never `--no-verify`.
 
 ---
@@ -35,6 +35,10 @@ The **private** repo is the source of truth. The public repo is a sanitized snap
 | "push" | Push to `origin` only (private `main`). Do not push OSS or prod unless specified. |
 | "deploy" / "push prod" | `npm run push:prod` or `git push origin main && git push origin main:prod` |
 | "release OSS" / "push public" | `npm run export:oss:push` only if explicitly requested |
+
+## Authorized Public Deployment Exception
+
+Pushes to `the-talent-app/main` may build `ghcr.io/vikashsparxit/obaol-ats` and trigger the `obaol-ats` CapRover app. This exception applies only to the checked-in GitHub Actions workflow and does not authorize manual pushes to the public repository, database migrations, edge-function deployment, or changes to the private SparxIT production process.
 
 ---
 

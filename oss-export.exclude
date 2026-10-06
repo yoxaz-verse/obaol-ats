@@ -47,7 +47,6 @@ docs/AGENCY_ATS_PLAN.md
 # Security audit tracker — contains live exploit details. Never public.
 docs/SECURITY_AUDIT_2026-09.md
 scripts/deploy-edge-functions.example.env
-Dockerfile
 Dockerfile-prod
 
 # Supabase diagnostics (not for public)

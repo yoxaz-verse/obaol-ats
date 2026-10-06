@@ -1,0 +1,83 @@
+name: Build and deploy OBAOL ATS
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: obaol-ats-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set image name
+        id: image
+        shell: bash
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          echo "name=ghcr.io/${owner}/obaol-ats" >> "$GITHUB_OUTPUT"
+
+      - name: Validate deployment secrets
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          CAPROVER_DEPLOY_WEBHOOK: ${{ secrets.CAPROVER_DEPLOY_WEBHOOK }}
+        shell: bash
+        run: |
+          missing=0
+          for name in VITE_SUPABASE_URL VITE_SUPABASE_PUBLISHABLE_KEY CAPROVER_DEPLOY_WEBHOOK; do
+            if [[ -z "${!name}" ]]; then
+              echo "Required GitHub Actions secret is missing: ${name}" >&2
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:latest
+            ${{ steps.image.outputs.name }}:${{ github.sha }}
+          build-args: |
+            VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}
+            VITE_SUPABASE_PUBLISHABLE_KEY=${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Trigger CapRover deployment
+        env:
+          CAPROVER_DEPLOY_WEBHOOK: ${{ secrets.CAPROVER_DEPLOY_WEBHOOK }}
+        shell: bash
+        run: |
+          if [[ -z "$CAPROVER_DEPLOY_WEBHOOK" ]]; then
+            echo "CAPROVER_DEPLOY_WEBHOOK is not configured" >&2
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            --retry 3 --retry-all-errors \
+            --request POST \
+            "$CAPROVER_DEPLOY_WEBHOOK"

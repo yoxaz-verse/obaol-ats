@@ -5,7 +5,7 @@ SparxTalent uses **two Git repositories**. This document is the **authoritative 
 | Repository | Remote | Visibility | Purpose |
 |------------|--------|------------|---------|
 | **sparxtalent** | `origin` | Private ([SparxIT](https://www.sparxitsolutions.com) only) | Source of truth — all development, production deploy |
-| **the-talent-app** | `oss` | Public (OSS) | Sanitized export for self-hosters and external contributors |
+| **the-talent-app** | `oss` | Public (OSS) | Sanitized export, external contributions, and authorized OBAOL ATS CapRover deployment |
 
 The public repo is **not** the source of truth. All development happens in the private repo; the public repo is updated only via the export script when [SparxIT](https://www.sparxitsolutions.com) chooses to release.
 
@@ -20,7 +20,7 @@ These rules are **non-negotiable**. Violating them risks leaking secrets or depl
 | # | Rule |
 |---|------|
 | 1 | **Never push to `oss` manually.** Only `npm run export:oss:push` or `./scripts/export-oss.sh --push` may update the public repo. |
-| 2 | **Never push [SparxIT](https://www.sparxitsolutions.com) production from the public repo.** Production deploys only from private `origin` → `prod`. |
+| 2 | **Never push [SparxIT](https://www.sparxitsolutions.com) production from the public repo.** SparxIT production deploys only from private `origin` → `prod`; the separate OBAOL ATS CapRover app is the sole public-repo deployment exception. |
 | 3 | **[SparxIT](https://www.sparxitsolutions.com) production deploy** uses `npm run push:prod` or `git push origin main && git push origin main:prod` — nothing else. |
 | 4 | **Never add private-only paths to the OSS export.** If a file must stay internal, add it to [oss-export.exclude](../oss-export.exclude) before any OSS release. |
 | 5 | **Commits belong on `origin` (private).** OSS sync is a separate, explicit step — never mix the two in one push command. |
@@ -33,7 +33,7 @@ Before giving **any** git push or deploy guidance, complete this checklist:
 
 - [ ] Confirm the working clone is the **private** `sparxtalent` repo (`git remote -v` shows `origin` → `vikashsparxit/sparxtalent`).
 - [ ] **Never** suggest `git push oss`, `git push oss main`, or pushing directly to `the-talent-app`.
-- [ ] **Never** suggest `export:oss:push` unless the user **explicitly** asks to publish to the public repo.
+- [ ] **Never** suggest `export:oss:push` unless the user **explicitly** asks to publish to the public repo. A push already made to public `main` automatically runs the authorized OBAOL ATS workflow.
 - [ ] For [SparxIT](https://www.sparxitsolutions.com) production: suggest only `npm run push:prod` or `git push origin main && git push origin main:prod`.
 - [ ] Before any push: verify `npx tsc --noEmit` and `npm run build` pass (or run them).
 - [ ] **Never** force-push. **Never** use `--no-verify`.
@@ -191,7 +191,64 @@ After deploying the `send-auth-email` edge function:
 
    If the verify link's `redirect_to` is not allowlisted, Supabase falls back to **Site URL** (`/`) and applicants briefly hit the staff portal.
 
-Public repo CI (if any) should run tests and build only; it must not deploy [SparxIT](https://www.sparxitsolutions.com) infrastructure.
+Public repo CI must not deploy [SparxIT](https://www.sparxitsolutions.com) infrastructure. Its only authorized deployment target is the separate OBAOL ATS CapRover app described below.
+
+---
+
+## OBAOL ATS — Public `main` to GHCR and CapRover
+
+This is an explicit exception to the private-repository production model above. A push to `vikashsparxit/the-talent-app` on `main` runs `.github/workflows/deploy.yml`, builds the frontend image on GitHub Actions, publishes it to GHCR, and then calls the CapRover deployment webhook. It does not run database migrations or deploy Supabase Edge Functions.
+
+### GitHub Actions secrets
+
+Configure these in **GitHub repository → Settings → Secrets and variables → Actions**:
+
+| Secret | Value source |
+|--------|--------------|
+| `VITE_SUPABASE_URL` | Supabase project API URL from Project Settings → API. This URL is compiled into the browser bundle. |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable/anon key from Project Settings → API. This key is intended for browser use and must be protected by RLS. |
+| `CAPROVER_DEPLOY_WEBHOOK` | The deployment webhook copied from the `obaol-ats` app's Deployment tab after connecting the public GitHub repository and selecting `main`. |
+
+GitHub's automatically provided `GITHUB_TOKEN` authenticates the workflow to GHCR; no additional registry-write secret is required. Never add `SUPABASE_SERVICE_ROLE_KEY`, database passwords, SMTP credentials, Gemini keys, or the CapRover administrator password to this frontend build.
+
+The workflow publishes both:
+
+- `ghcr.io/vikashsparxit/obaol-ats:latest`
+- `ghcr.io/vikashsparxit/obaol-ats:<full-git-commit-sha>`
+
+### One-time CapRover setup
+
+1. Create a CapRover app named `obaol-ats`.
+2. Set **Container HTTP Port** to `80`.
+3. In the app's Deployment tab, connect `https://github.com/vikashsparxit/the-talent-app`, select branch `main`, and leave the Captain Definition path at the repository-root default. The checked-in `captain-definition` instructs CapRover to pull `ghcr.io/vikashsparxit/obaol-ats:latest` instead of rebuilding source.
+4. Copy the generated webhook URL into the GitHub secret `CAPROVER_DEPLOY_WEBHOOK`.
+5. If the GHCR package is private, open **CapRover → Cluster → Add Remote Registry** and enter:
+   - Domain: `ghcr.io`
+   - Username: the GitHub user or machine user that owns the token
+   - Password: a fine-grained/classic GitHub token with read-only package access (`read:packages`) and repository access if GitHub requires it for the private package
+   - Image Prefix: `vikashsparxit`
+   - Disable pushing new images for this registry when only pull access is needed.
+6. Alternatively, change the GHCR package visibility to public and omit registry credentials. Keep the source repository's own visibility and security requirements in mind; package visibility is configured separately.
+7. Add the production domain in the app's HTTP Settings. Enable HTTPS, wait for certificate issuance to succeed, verify HTTPS, and only then enable **Force HTTPS**.
+
+The deployment webhook starts only after both GHCR tags have been pushed. A non-success webhook response fails the GitHub Actions job. CapRover pulls `latest`; use the immutable SHA tag for diagnosis or an intentional rollback.
+
+### Supabase production URL configuration
+
+Do not replace the localhost values in `supabase/config.toml`; they support local development. In the production Supabase dashboard, open **Authentication → URL Configuration** and configure:
+
+- Site URL: `https://YOUR-ATS-DOMAIN.com`
+- Redirect URLs:
+  - `https://YOUR-ATS-DOMAIN.com/applicant/login`
+  - `https://YOUR-ATS-DOMAIN.com/applicant/login?verified=1`
+  - `https://YOUR-ATS-DOMAIN.com/applicant/dashboard`
+  - `https://YOUR-ATS-DOMAIN.com/reset-password`
+
+Retain the required localhost redirect URLs for development. Replace `YOUR-ATS-DOMAIN.com` with the final production hostname before launch.
+
+### Deployment verification
+
+After the first run, confirm the GitHub Actions job succeeded, both GHCR tags exist, the CapRover deployment log shows the new image pull, and direct browser refreshes work on `/applicant/login`, `/applicant/dashboard`, `/jobs`, `/candidates`, and `/settings`.
 
 ---
 

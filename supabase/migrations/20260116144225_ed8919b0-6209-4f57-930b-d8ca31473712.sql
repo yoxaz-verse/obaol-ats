@@ -106,7 +106,7 @@ CREATE TABLE public.candidate_assessments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     candidate_id UUID REFERENCES public.candidates(id) ON DELETE CASCADE NOT NULL,
     assessment_id UUID REFERENCES public.assessments(id) ON DELETE CASCADE NOT NULL,
-    access_token TEXT NOT NULL UNIQUE DEFAULT encode(gen_random_bytes(32), 'hex'),
+    access_token TEXT NOT NULL UNIQUE DEFAULT encode(extensions.gen_random_bytes(32), 'hex'),
     status public.candidate_assessment_status NOT NULL DEFAULT 'invited',
     invited_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
     deadline TIMESTAMP WITH TIME ZONE,

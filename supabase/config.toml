@@ -11,8 +11,10 @@ additional_redirect_urls = [
   "http://localhost:5173/applicant/dashboard",
 ]
 
-# Auth email templates — restart local stack after changes: supabase stop && supabase start
-# For self-hosted prod (clientwork.xyz), copy HTML into Dashboard → Authentication → Email Templates
+# Auth email templates
+# Restart local Supabase after template changes:
+# supabase stop && supabase start
+
 [auth.email.template.confirmation]
 subject = "Confirm your email — The Talent App"
 content_path = "./supabase/templates/confirmation.html"
@@ -37,22 +39,40 @@ content_path = "./supabase/templates/email_change.html"
 subject = "{{ .Token }} is your verification code — The Talent App"
 content_path = "./supabase/templates/reauthentication.html"
 
-# Auth Send Email Hook — routes signup/recovery/etc. through send-auth-email edge function (AWS SES SMTP).
-# Requires SEND_AUTH_EMAIL_HOOK_SECRET in .env (format: v1,whsec_<base64>, 32–88 chars).
-# Local: supabase functions serve send-auth-email --no-verify-jwt --env-file .env.local
-# Then restart: supabase stop && supabase start
-[auth.hook.send_email]
-enabled = true
-uri = "http://host.docker.internal:54321/functions/v1/send-auth-email"
-secrets = "env(SEND_AUTH_EMAIL_HOOK_SECRET)"
 
-# TOTP MFA for staff accounts (enrollment in Settings → Security; challenge on login).
+# ============================================================
+# AUTH SEND EMAIL HOOK
+# Temporarily disabled for initial ATS/Supabase setup.
+#
+# Enable this later when configuring production transactional
+# emails through the send-auth-email Edge Function.
+#
+# When enabling, SEND_AUTH_EMAIL_HOOK_SECRET must use:
+# v1,whsec_<base64_encoded_secret>
+# ============================================================
+
+# [auth.hook.send_email]
+# enabled = true
+# uri = "http://host.docker.internal:54321/functions/v1/send-auth-email"
+# secrets = "env(SEND_AUTH_EMAIL_HOOK_SECRET)"
+
+
+# ============================================================
+# MFA
+# TOTP multi-factor authentication for staff accounts
+# ============================================================
+
 [auth.mfa]
 max_enrolled_factors = 10
 
 [auth.mfa.totp]
 enroll_enabled = true
 verify_enabled = true
+
+
+# ============================================================
+# EDGE FUNCTIONS
+# ============================================================
 
 [functions.send-auth-email]
 verify_jwt = false
