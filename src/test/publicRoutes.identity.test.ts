@@ -1,5 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { isApplicantUser, isStaffUser, isInternalStaffRole } from '@/lib/publicRoutes';
+import {
+  isApplicantUser,
+  isStaffUser,
+  isInternalStaffRole,
+  staffEmailRedirectUrl,
+} from '@/lib/publicRoutes';
+
+describe('staffEmailRedirectUrl', () => {
+  it('returns the deployed origin with the staff verification route', () => {
+    expect(staffEmailRedirectUrl('https://hiring.obaol.com')).toBe(
+      'https://hiring.obaol.com/auth?verified=1',
+    );
+  });
+
+  it('normalizes an origin with a trailing slash', () => {
+    expect(staffEmailRedirectUrl('http://localhost:5173/')).toBe(
+      'http://localhost:5173/auth?verified=1',
+    );
+  });
+});
 
 describe('staff vs applicant identity', () => {
   it('treats interviewer with applicant_profiles as staff, not applicant', () => {

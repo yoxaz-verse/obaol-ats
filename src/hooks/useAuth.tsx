@@ -12,6 +12,7 @@ import {
   isInternalStaffRole,
   isStaffUser,
   isEmailSignupConfirmation,
+  staffEmailRedirectUrl,
 } from '@/lib/publicRoutes';
 import { generateMfaFriendlyName } from '@/lib/mfaEnroll';
 
@@ -369,7 +370,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (email: string, password: string, fullName: string) => {
     try {
-      const redirectUrl = `${window.location.origin}/`;
+      const redirectUrl = staffEmailRedirectUrl(window.location.origin);
 
       const { data, error } = await supabase.auth.signUp({
         email,

@@ -12,6 +12,11 @@ export type InternalStaffRole = (typeof INTERNAL_STAFF_ROLES)[number];
 
 export const APPLICANT_DASHBOARD_PATH = '/applicant/dashboard';
 export const APPLICANT_LOGIN_VERIFY_PATH = '/applicant/login?verified=1';
+export const STAFF_LOGIN_VERIFY_PATH = '/auth?verified=1';
+
+export function staffEmailRedirectUrl(origin: string): string {
+  return new URL(STAFF_LOGIN_VERIFY_PATH, `${origin}/`).toString();
+}
 
 export function isSafeApplicantRedirect(redirect: string | null | undefined): redirect is string {
   return !!redirect && redirect.startsWith('/applicant') && !redirect.startsWith('//');

@@ -3,9 +3,13 @@ project_id = "qmazmrrgdgbawncsgqcf"
 [auth]
 site_url = "http://127.0.0.1:5173"
 additional_redirect_urls = [
+  "http://127.0.0.1:5173/auth?verified=1",
+  "http://127.0.0.1:5173/reset-password",
   "http://127.0.0.1:5173/applicant/login",
   "http://127.0.0.1:5173/applicant/login?verified=1",
   "http://127.0.0.1:5173/applicant/dashboard",
+  "http://localhost:5173/auth?verified=1",
+  "http://localhost:5173/reset-password",
   "http://localhost:5173/applicant/login",
   "http://localhost:5173/applicant/login?verified=1",
   "http://localhost:5173/applicant/dashboard",

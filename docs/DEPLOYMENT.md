@@ -237,14 +237,29 @@ The deployment webhook starts only after both GHCR tags have been pushed. A non-
 
 Do not replace the localhost values in `supabase/config.toml`; they support local development. In the production Supabase dashboard, open **Authentication → URL Configuration** and configure:
 
-- Site URL: `https://obaol-ats.infra.obaol.com`
+- Site URL: `https://hiring.obaol.com`
 - Redirect URLs:
+  - `https://hiring.obaol.com/auth?verified=1`
+  - `https://hiring.obaol.com/reset-password`
+  - `https://hiring.obaol.com/applicant/login`
+  - `https://hiring.obaol.com/applicant/login?verified=1`
+  - `https://hiring.obaol.com/applicant/dashboard`
+  - `https://obaol-ats.vercel.app/auth?verified=1`
+  - `https://obaol-ats.vercel.app/reset-password`
+  - `https://obaol-ats.vercel.app/applicant/login`
+  - `https://obaol-ats.vercel.app/applicant/login?verified=1`
+  - `https://obaol-ats.vercel.app/applicant/dashboard`
+  - `https://obaol-ats.infra.obaol.com/auth?verified=1`
   - `https://obaol-ats.infra.obaol.com/applicant/login`
   - `https://obaol-ats.infra.obaol.com/applicant/login?verified=1`
   - `https://obaol-ats.infra.obaol.com/applicant/dashboard`
   - `https://obaol-ats.infra.obaol.com/reset-password`
 
 Retain the required localhost redirect URLs for development.
+
+`hiring.obaol.com` is the canonical production address. Keep the Vercel and CapRover entries only while those hostnames remain valid alternate entry points or deployment diagnostics.
+
+Supabase silently falls back to the Site URL when an `emailRedirectTo` value is not allowlisted. If a confirmation email opens `localhost`, correct the Site URL and redirect list above, then send a new confirmation email; already-issued links keep their original destination.
 
 ### Deployment verification
 
