@@ -15,6 +15,7 @@ import {
   staffEmailRedirectUrl,
 } from '@/lib/publicRoutes';
 import { generateMfaFriendlyName } from '@/lib/mfaEnroll';
+import { isDuplicateSignupResponse, staffSignupErrorLog } from '@/lib/staffSignup';
 
 type AppRole = 'admin' | 'hr' | 'recruiter' | 'interviewer';
 type ApplicantProfileStatus = 'present' | 'absent' | 'unknown';
@@ -37,7 +38,11 @@ interface AuthContextType {
   markApplicantPortalSynced: () => void;
   mfaPending: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; mfaRequired: boolean }>;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null; session: Session | null }>;
+  signUp: (email: string, password: string, fullName: string) => Promise<{
+    error: Error | null;
+    session: Session | null;
+    existingAccount: boolean;
+  }>;
   signInWithSSO: (options: { domain?: string; providerId?: string }) => Promise<{ error: Error | null }>;
   verifyMfaLogin: (code: string) => Promise<{ error: Error | null }>;
   enrollMfa: (friendlyName?: string) => Promise<{ data: AuthMfaEnrollResponse['data'] | null; error: Error | null }>;
@@ -384,12 +389,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (error) {
-        return { error, session: null };
+        console.error('Staff signup failed', staffSignupErrorLog(error));
+        return { error, session: null, existingAccount: false };
       }
 
-      return { error: null, session: data.session };
+      return {
+        error: null,
+        session: data.session,
+        existingAccount: isDuplicateSignupResponse(data.user),
+      };
     } catch (err) {
-      return { error: err as Error, session: null };
+      console.error('Staff signup request failed', staffSignupErrorLog(err));
+      return { error: err as Error, session: null, existingAccount: false };
     }
   };
 

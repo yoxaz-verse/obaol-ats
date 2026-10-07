@@ -13,6 +13,7 @@ import { Loader2, MailCheck, KeyRound } from 'lucide-react';
 import { MfaChallengePanel } from '@/components/auth/MfaChallengePanel';
 import { useSystemConfig, parseSsoSettings, type SsoSettings } from '@/hooks/useSystemConfig';
 import { APPLICANT_DASHBOARD_PATH, APPLICANT_LOGIN_VERIFY_PATH, isApplicantPortalUserMetadata } from '@/lib/publicRoutes';
+import { classifyStaffSignupError } from '@/lib/staffSignup';
 import obaolLogo from '@/assets/OBAOL-Supreme-Logo.png';
 
 const emailSchema = z.string().email('Please enter a valid email address');
@@ -209,21 +210,23 @@ export default function Auth() {
     
     setIsLoading(true);
     
-    const { error, session } = await signUp(signupEmail, signupPassword, signupName);
+    const { error, session, existingAccount } = await signUp(signupEmail, signupPassword, signupName);
 
     if (error) {
-      let message = 'An error occurred during signup';
-
-      if (error.message.includes('User already registered')) {
-        message = 'This email is already registered. Please log in instead.';
-      } else if (error.message.includes('Password')) {
-        message = error.message;
-      }
+      const failure = classifyStaffSignupError(error);
 
       toast({
         variant: 'destructive',
         title: 'Signup Failed',
-        description: message,
+        description: failure.message,
+      });
+    } else if (existingAccount) {
+      setLoginEmail(signupEmail);
+      setActiveTab('login');
+      toast({
+        variant: 'destructive',
+        title: 'Account Already Exists',
+        description: classifyStaffSignupError(new Error('User already registered')).message,
       });
     } else if (!session) {
       // Email confirmation required — Supabase didn't auto-confirm
