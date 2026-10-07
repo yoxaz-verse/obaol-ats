@@ -10,6 +10,7 @@ import {
   isApplicantPortalUserMetadata,
   isApplicantUser,
   isInternalStaffRole,
+  isPendingStaffApproval,
   isStaffUser,
   isEmailSignupConfirmation,
   staffEmailRedirectUrl,
@@ -139,7 +140,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const applicantUnknown = applicantStatus === 'unknown';
     const applicantPortalUser = isApplicantPortalUserMetadata(userMetadata);
     const hasDeterministicIdentity =
-      staffRoleDetected || applicantDetected || (applicantPortalUser && !staffRoleDetected);
+      staffRoleDetected ||
+      applicantDetected ||
+      (applicantPortalUser && !staffRoleDetected) ||
+      (roleResult.status === 'resolved' && !applicantUnknown);
 
     setRole(fetchedRole);
     if (!applicantUnknown) {
@@ -464,6 +468,13 @@ export function ProtectedRoute({ children }: { children?: ReactNode }) {
   const isApplicantPortalUser = isApplicantPortalUserMetadata(user?.user_metadata);
   // Staff roles always stay in the staff app — ignore leftover portal metadata.
   const mustUseApplicantPortal = !isStaff && (isApplicant || isApplicantPortalUser);
+  const pendingStaffApproval = isPendingStaffApproval(
+    !!user,
+    identityResolved,
+    isStaff,
+    isApplicant,
+    user?.user_metadata,
+  );
 
   const identityPending =
     loading ||
@@ -491,6 +502,11 @@ export function ProtectedRoute({ children }: { children?: ReactNode }) {
       return;
     }
 
+    if (pendingStaffApproval) {
+      navigate('/auth?pending=approval', { replace: true });
+      return;
+    }
+
     if (mustUseApplicantPortal) {
       navigate(
         isApplicant ? APPLICANT_DASHBOARD_PATH : APPLICANT_LOGIN_VERIFY_PATH,
@@ -506,13 +522,14 @@ export function ProtectedRoute({ children }: { children?: ReactNode }) {
     location.pathname,
     location.search,
     mfaPending,
+    pendingStaffApproval,
   ]);
 
   if (identityPending) {
     return <LoadingScreen />;
   }
 
-  if (!user || mfaPending || mustUseApplicantPortal) {
+  if (!user || mfaPending || mustUseApplicantPortal || pendingStaffApproval) {
     return null;
   }
 

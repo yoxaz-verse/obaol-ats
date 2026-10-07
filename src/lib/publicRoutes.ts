@@ -86,6 +86,22 @@ export function isInternalStaffRole(role: string | null | undefined): role is In
   return !!role && (INTERNAL_STAFF_ROLES as readonly string[]).includes(role);
 }
 
+export function isPendingStaffApproval(
+  hasUser: boolean,
+  identityResolved: boolean,
+  isStaff: boolean,
+  isApplicant: boolean,
+  metadata: Record<string, unknown> | null | undefined,
+): boolean {
+  return (
+    hasUser &&
+    identityResolved &&
+    !isStaff &&
+    !isApplicant &&
+    !isApplicantPortalUserMetadata(metadata)
+  );
+}
+
 /**
  * Applicant portal user — applicant_profiles row is the source of truth,
  * but any internal staff role (including interviewer) always wins so panel

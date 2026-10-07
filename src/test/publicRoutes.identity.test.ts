@@ -3,6 +3,7 @@ import {
   isApplicantUser,
   isStaffUser,
   isInternalStaffRole,
+  isPendingStaffApproval,
   staffEmailRedirectUrl,
 } from '@/lib/publicRoutes';
 
@@ -41,5 +42,13 @@ describe('staff vs applicant identity', () => {
   it('recognizes all internal staff roles', () => {
     expect(isInternalStaffRole('interviewer')).toBe(true);
     expect(isInternalStaffRole('applicant')).toBe(false);
+  });
+
+  it('recognizes a resolved staff signup that is waiting for a role', () => {
+    expect(isPendingStaffApproval(true, true, false, false, {})).toBe(true);
+    expect(isPendingStaffApproval(true, false, false, false, {})).toBe(false);
+    expect(isPendingStaffApproval(true, true, true, false, {})).toBe(false);
+    expect(isPendingStaffApproval(true, true, false, true, {})).toBe(false);
+    expect(isPendingStaffApproval(true, true, false, false, { portal: 'applicant' })).toBe(false);
   });
 });

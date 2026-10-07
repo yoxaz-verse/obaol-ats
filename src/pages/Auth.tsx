@@ -9,10 +9,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
-import { Loader2, MailCheck, KeyRound } from 'lucide-react';
+import { Loader2, MailCheck, KeyRound, ShieldCheck } from 'lucide-react';
 import { MfaChallengePanel } from '@/components/auth/MfaChallengePanel';
 import { useSystemConfig, parseSsoSettings, type SsoSettings } from '@/hooks/useSystemConfig';
-import { APPLICANT_DASHBOARD_PATH, APPLICANT_LOGIN_VERIFY_PATH, isApplicantPortalUserMetadata } from '@/lib/publicRoutes';
+import {
+  APPLICANT_DASHBOARD_PATH,
+  APPLICANT_LOGIN_VERIFY_PATH,
+  isApplicantPortalUserMetadata,
+  isPendingStaffApproval,
+} from '@/lib/publicRoutes';
 import { classifyStaffSignupError } from '@/lib/staffSignup';
 import obaolLogo from '@/assets/OBAOL-Supreme-Logo.png';
 
@@ -39,13 +44,30 @@ export default function Auth() {
   const [signupName, setSignupName] = useState('');
   const [signupErrors, setSignupErrors] = useState<{ email?: string; password?: string; name?: string }>({});
   
-  const { signIn, signUp, signInWithSSO, user, isApplicant, isStaff, identityResolved, mfaPending } = useAuth();
+  const {
+    signIn,
+    signUp,
+    signInWithSSO,
+    signOut,
+    user,
+    isApplicant,
+    isStaff,
+    identityResolved,
+    mfaPending,
+  } = useAuth();
   const { configValue: ssoRaw } = useSystemConfig('sso_settings');
   const ssoSettings = parseSsoSettings(ssoRaw);
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state as { from?: string; mfa?: boolean } | null;
   const { toast } = useToast();
+  const pendingStaffApproval = isPendingStaffApproval(
+    !!user,
+    identityResolved,
+    isStaff,
+    isApplicant,
+    user?.user_metadata,
+  );
 
   const staffRedirectTarget = (() => {
     const from = locationState?.from;
@@ -92,8 +114,6 @@ export default function Auth() {
         navigate(APPLICANT_DASHBOARD_PATH, { replace: true });
       } else if (isApplicantPortalUserMetadata(user.user_metadata)) {
         navigate(APPLICANT_LOGIN_VERIFY_PATH, { replace: true });
-      } else {
-        navigate(staffRedirectTarget, { replace: true });
       }
     }
   }, [user, identityResolved, isApplicant, isStaff, navigate, staffRedirectTarget, mfaPending, showMfaChallenge]);
@@ -258,7 +278,30 @@ export default function Auth() {
           <p className="mt-3 text-sm font-medium tracking-wide text-muted-foreground">Talent Acquisition for OBAOL Companies</p>
         </div>
 
-        {signupPendingEmail ? (
+        {pendingStaffApproval ? (
+          <Card className="surface-card border-0 shadow-elev-2">
+            <CardContent className="pt-8 pb-8 flex flex-col items-center text-center gap-4">
+              <div className="p-4 rounded-full bg-primary/10">
+                <ShieldCheck className="h-8 w-8 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold">Email verified</h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Your account is awaiting admin approval.
+                </p>
+              </div>
+              <p className="text-xs text-muted-foreground max-w-xs">
+                An administrator needs to assign your staff role before you can access the talent platform. You can close this page and return after your access is approved.
+              </p>
+              {user?.email && (
+                <p className="text-sm font-medium text-foreground">{user.email}</p>
+              )}
+              <Button variant="outline" size="sm" onClick={() => void signOut()}>
+                Sign out
+              </Button>
+            </CardContent>
+          </Card>
+        ) : signupPendingEmail ? (
           <Card className="surface-card border-0 shadow-elev-2">
             <CardContent className="pt-8 pb-8 flex flex-col items-center text-center gap-4">
               <div className="p-4 rounded-full bg-primary/10">
